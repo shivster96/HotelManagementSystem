@@ -38,7 +38,7 @@ $max = 2147483647;
     }
     if(filter_var($empid, FILTER_VALIDATE_INT, array("options" => array("min_range"=>$min, "max_range"=>$max))) &&
     filter_var($salary, FILTER_VALIDATE_INT, array("options" => array("min_range"=>$min, "max_range"=>$max)))){
-      $conn=oci_connect('apalania','B29red1322','//dbserver.engr.scu.edu/db11g');
+      $conn=oci_connect('apalania','','//dbserver.engr.scu.edu/db11g');
       if(!$conn) {
         print "<br> connection failed:";
         exit;
@@ -59,8 +59,8 @@ $max = 2147483647;
       $q2 = "Insert Into Employees(EmpID,EmpName,DeptId,Salary) values(:empid,:empname,:deptid,:salary)";
       $query2 = oci_parse($conn, $q2);
       oci_bind_by_name($query2, ':empid', $empid);
-    	oci_bind_by_name($query2, ':empname', $empname);
-    	oci_bind_by_name($query2, ':salary', $salary);
+      oci_bind_by_name($query2, ':empname', $empname);
+      oci_bind_by_name($query2, ':salary', $salary);
       oci_bind_by_name($query2, ':deptid', $deptid);
       $res = oci_execute($query2);
       if ($res)
