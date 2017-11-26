@@ -13,7 +13,7 @@ session_start();
     <select name="DeptName" required>
       <option selected disabled> Select a Department </option>
       <?php
-      $conn=oci_connect('apalania','B29red1322', '//dbserver.engr.scu.edu/db11g');
+      $conn=oci_connect('apalania','', '//dbserver.engr.scu.edu/db11g');
       if($conn) {
         $query = oci_parse($conn, "SELECT DeptName FROM Department");
         oci_execute($query);
@@ -33,7 +33,7 @@ session_start();
   <div class="container">
     <?php
       //connect to your database. Type in your username, password and the DB path
-      $conn=oci_connect('apalania','B29red1322', '//dbserver.engr.scu.edu/db11g');
+      $conn=oci_connect('apalania','', '//dbserver.engr.scu.edu/db11g');
       if(!$conn) {
         print "<br> connection failed";
         exit;
