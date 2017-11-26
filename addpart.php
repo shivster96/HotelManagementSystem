@@ -50,7 +50,7 @@ $max = 2147483647;
       echo "Price is not an integer greater than 0.";
     }
     if(filter_var($price, FILTER_VALIDATE_INT,$min,$max) && preg_match('/^\d+$/', $minqty) && preg_match('/^\d+$/', $qty) && filter_var($partid, FILTER_VALIDATE_INT,$min,$max)){
-      $conn=oci_connect('apalania','B29red1322','//dbserver.engr.scu.edu/db11g');
+      $conn=oci_connect('apalania','','//dbserver.engr.scu.edu/db11g');
       if(!$conn) {
         print "<br> connection failed:";
         exit;
