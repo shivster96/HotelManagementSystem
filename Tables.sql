@@ -2,14 +2,16 @@ Create Table Room (
   RoomNo INTEGER PRIMARY KEY,
   Type VARCHAR,
   Price INTEGER,
-  Availability BOOLEAN
+  Availability BOOLEAN,
+  CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
 );
 
 Create Table Group_Packages (
   Type VARCHAR,
   Num INTEGER,
   Discount INTEGER,
-  CONSTRAINT PKP_GP PRIMARY KEY (Type, Num)
+  CONSTRAINT PKP_GP PRIMARY KEY (Type, Num),
+  CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
 );
 
 Create Table Seasonal_Discount (
@@ -17,7 +19,8 @@ Create Table Seasonal_Discount (
   StartDate DATE,
   EndDate DATE,
   Discount INTEGER,
-  CONSTRAINT PK_SD PRIMARY KEY (Type, StartDate)
+  CONSTRAINT PK_SD PRIMARY KEY (Type, StartDate),
+  CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
 );
 
 Create Table Availibility_Calendar (
