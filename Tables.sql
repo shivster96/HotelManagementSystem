@@ -1,26 +1,37 @@
+Drop Table room;
+Drop Table Group_packages;
+Drop Table Seasonal_Discount;
+Drop Table Availibility_calendar;
+Drop Table Customer;
+Drop Table charges;
+Drop Table rewards;
+Drop Table employees;
+Drop Table department;
+Drop Table Inventory;
+
 Create Table Room (
   RoomNo INTEGER PRIMARY KEY,
-  Type VARCHAR(35),
+  roomType VARCHAR(35),
   Price INTEGER,
-  Availability BOOLEAN,
-  CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
+  Availability Number(1),
+  CHECK (roomType in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room'))
 );
 
 Create Table Group_Packages (
-  Type VARCHAR(35),
+  roomType VARCHAR(35),
   Num INTEGER,
   Discount INTEGER,
-  CONSTRAINT PKP_GP PRIMARY KEY (Type, Num),
-  CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
+  CONSTRAINT PKP_GP PRIMARY KEY (roomType, Num),
+  CHECK (roomType in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room'))
 );
 
 Create Table Seasonal_Discount (
-  Type VARCHAR(35),
+  roomType VARCHAR(35),
   StartDate DATE,
   EndDate DATE,
   Discount INTEGER,
-  CONSTRAINT PK_SD PRIMARY KEY (Type, StartDate),
-  CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
+  CONSTRAINT PK_SD PRIMARY KEY (roomType, StartDate),
+  CHECK (roomType in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room'))
 );
 
 Create Table Availibility_Calendar (
@@ -35,6 +46,7 @@ Create Table Availibility_Calendar (
 
 Create Table Customer (
   CustID INTEGER PRIMARY KEY,
+  password VARCHAR(35),
   CustName VARCHAR(35),
   CreditCardNo INTEGER
 );
@@ -42,7 +54,7 @@ Create Table Customer (
 Create Table Charges (
   CustID INTEGER PRIMARY KEY,
   RoomNo INTEGER,
-  TotalCost INTEGER,
+  TotalCost INTEGER
 );
 
 Create Table Rewards (
@@ -74,7 +86,4 @@ Create Table Inventory(
   Date_Checked DATE
 );
 
-Needed_Parts(
-  PartID INTEGER PRIMARY KEY,
-  Qty INTEGER
-);
+--Needed Parts has been removed
