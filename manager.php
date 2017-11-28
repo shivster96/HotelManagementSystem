@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('America/Los_Angeles');
+$time =
 session_start();
 ?>
 <!DOCTYPE HTML>
@@ -30,7 +32,28 @@ session_start();
   </form>
   <br>
   <br>
-  <div class="container">
+  <div id="buymore">
+  <?php
+    $buy = "SELECT PartName FROM Inventory WHERE qty < minqty";
+    $mod = oci_parse($conn, $buy);
+    oci_execute($mod);
+    if (($row = oci_fetch_array($mod, OCI_BOTH)) != false) {
+      ?>
+      <form method="post">
+        <p> There are some parts that are low in quantity. </h3>
+        <input type="submit" name="buypart" value="Buy a New Part">
+      </form>
+      <?php
+    }
+    if (isset($_POST['buypart'])){
+      header("Location: buypart.php");
+      exit();
+    }
+    ?>
+  </div>
+  <br>
+
+  <div id="container">
     <?php
       //connect to your database. Type in your username, password and the DB path
       $conn=oci_connect('apalania','', '//dbserver.engr.scu.edu/db11g');

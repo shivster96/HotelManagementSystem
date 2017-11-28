@@ -13,8 +13,6 @@ $max = 2147483647;
 <body>
   <h3> Adding a Part into the <?php echo $dept ?> Department </h3>
   <form method="post">
-    <label for="partid">PartID:</label>
-    <input type="text" name="partid" id="partid" required><br>
     <label for="partname">Part Name:</label>
     <input type="text" name="partname" id="partname" required><br>
     <label for="qty">Quantity:</label>
@@ -27,7 +25,6 @@ $max = 2147483647;
   </form>
   <?php
   if (isset($_POST['submit'])) {
-    $partid = $_POST['partid'];
     $partname = prepareInput($_POST['partname']);
     $qty = $_POST['qty'];
     $minqty = $_POST['minqty'];
@@ -37,30 +34,29 @@ $max = 2147483647;
     if ($partname == ""){
       echo "Part Name is not valid.";
     }
-    if(!filter_var($partid, FILTER_VALIDATE_INT,$min, $max)){
-      echo "PartID is not an integer greater than 0.";
-    }
     if (!preg_match('/^\d+$/', $qty)) {
       echo "Quantity is not an integer";
     }
     if (!preg_match('/^\d+$/', $minqty)) {
       echo "Minimum quantity is not an integer";
     }
-    if(!filter_var($price, FILTER_VALIDATE_INT,$min, $max)){
+    if(!filter_var($price, FILTER_VALIDATE_INT, array("options" => array("min_range"=>$min, "max_range"=>$max)))){
       echo "Price is not an integer greater than 0.";
     }
-    if(filter_var($price, FILTER_VALIDATE_INT,$min,$max) && preg_match('/^\d+$/', $minqty) && preg_match('/^\d+$/', $qty) && filter_var($partid, FILTER_VALIDATE_INT,$min,$max)){
+    if(preg_match('/^\d+$/', $minqty) && preg_match('/^\d+$/', $qty) && filter_var($price, FILTER_VALIDATE_INT,array("options" => array("min_range"=>$min, "max_range"=>$max)))){
       $conn=oci_connect('apalania','','//dbserver.engr.scu.edu/db11g');
       if(!$conn) {
         print "<br> connection failed:";
         exit;
       }
-      $pid = "SELECT PartID FROM Inventory WHERE PartID = '".$partid."'";
-      $p = oci_parse($conn, $pid);
-      oci_execute($p);
-      if (($row = oci_fetch_array($p, OCI_BOTH)) != false) {
-        echo "PartID ".$partid." has already been taken.";
-        exit;
+      while(true){
+        $partid = rand($min, 1000);
+        $pid = "SELECT PartID FROM Inventory WHERE PartID = '".$partid."'";
+        $p = oci_parse($conn, $pid);
+        oci_execute($p);
+        if (($row = oci_fetch_array($p, OCI_BOTH)) == false) {
+          break;
+        }
       }
       $q = "SELECT DeptID FROM Department WHERE DeptName = '".$dept."'";
       $query = oci_parse($conn, $q);
@@ -77,14 +73,19 @@ $max = 2147483647;
       oci_bind_by_name($query2, ':price', $price);
       oci_bind_by_name($query2, ':deptid', $deptid);
       $res = oci_execute($query2);
-      if ($res)
+      if ($res){
         echo '<br><br> <p style="color:green;font-size:20px">Data successfully inserted</p>';
+        unset($_SESSION['DeptName']);
+        session_destroy();
+        header("refresh:2;url=manager.php");
+      }
       else{
-        $e = oci_error($query);
+        $e = oci_error($query2);
         echo $e['message'];
       }
     }
   }
+  OCILogoff($conn);
   ?>
 </body>
 </html>
