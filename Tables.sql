@@ -1,13 +1,13 @@
 Create Table Room (
   RoomNo INTEGER PRIMARY KEY,
-  Type VARCHAR,
+  Type VARCHAR(35),
   Price INTEGER,
   Availability BOOLEAN,
   CHECK TYPE in ('Presidential Suite', 'Deluxe Suite', 'Suite', 'Conference Room', 'Ball Room')
 );
 
 Create Table Group_Packages (
-  Type VARCHAR,
+  Type VARCHAR(35),
   Num INTEGER,
   Discount INTEGER,
   CONSTRAINT PKP_GP PRIMARY KEY (Type, Num),
@@ -15,7 +15,7 @@ Create Table Group_Packages (
 );
 
 Create Table Seasonal_Discount (
-  Type VARCHAR,
+  Type VARCHAR(35),
   StartDate DATE,
   EndDate DATE,
   Discount INTEGER,
@@ -35,7 +35,7 @@ Create Table Availibility_Calendar (
 
 Create Table Customer (
   CustID INTEGER PRIMARY KEY,
-  CustName VARCHAR,
+  CustName VARCHAR(35),
   CreditCardNo INTEGER
 );
 
@@ -53,20 +53,20 @@ Create Table Rewards (
 
 Create Table Employees (
   EmpID INTEGER PRIMARY KEY,
-  EmpName Varchar,
+  EmpName Varchar(35),
   DeptID INTEGER,
   Salary INTEGER
 );
 
 Create Table Department (
   DeptID INTEGER PRIMARY KEY,
-  DeptName VARCHAR,
+  DeptName VARCHAR(35),
   PhoneNo INTEGER
 );
 
 Create Table Inventory(
   PartID INTEGER PRIMARY KEY,
-  PartName VARCHAR,
+  PartName VARCHAR(35),
   Qty INTEGER,
   MinQty INTEGER,
   Price INTEGER,
