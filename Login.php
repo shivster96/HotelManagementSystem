@@ -40,7 +40,13 @@ $conn=oci_connect( /* insert login details */ );
 	$query = oci_parse($conn, "Select tier from rewards natural join customer where custid = :id AND password = :password");
 // Need to add if statements on the value of tier
   if($query > 0){
-    echo "You have Rewards Benefits!";
+    echo file_get_contents("useRewards1.html");
+  }
+  if($query > 0){
+    echo file_get_contents("useRewards2.html");
+  }
+  if($query > 0){
+    echo file_get_contents("useRewards3.html");
   }
 //Provide Radio Buttons to change variables inserted
 	// Execute the query
