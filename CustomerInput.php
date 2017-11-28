@@ -49,7 +49,7 @@ $conn=oci_connect( /* insert login details */ );
 		echo '<br><br> <p style="color:green;font-size:20px">Data successfully inserted</p>';
 	else{
 		$e = oci_error($query);
-        	echo $e['message'];
+        	echo $e['Id already exists or we fucked up'];
 	}
 	OCILogoff($conn);
 }
