@@ -1,6 +1,4 @@
 <?php
-date_default_timezone_set('America/Los_Angeles');
-$time =
 session_start();
 ?>
 <!DOCTYPE HTML>
@@ -11,7 +9,9 @@ session_start();
 </head>
 <body>
   <h3> What would you like to do? </h3>
-  <form method="post">
+   <form method="post">
+    <input type = "submit" name = "randparts" value = "Zero the Quantities of Random Parts">
+    <br>
     <select name="DeptName" required>
       <option selected disabled> Select a Department </option>
       <?php
@@ -61,7 +61,29 @@ session_start();
         print "<br> connection failed";
         exit;
       }
-      if(isset($_POST['addemployee']) && isset($_POST['DeptName'])){
+      if (isset($_POST['randparts'])) {
+        $q = "SELECT PartID FROM (SELECT PartID FROM Inventory ORDER BY DBMS_RANDOM.VALUE) WHERE ROWNUM <= 5";
+        $query = oci_parse($conn, $q);
+        oci_execute($query);
+        $rand = array();
+        while (($row = oci_fetch_array($query, OCI_BOTH)) != false) {
+          array_push($rand, $row[0]);
+        }
+        $size = count($rand);
+        for ($j = 0; $j < $size; $j++){
+          $partid = $rand[$j];
+          $update = oci_parse($conn, "UPDATE Inventory SET Qty = 0 WHERE PartID = :partid");
+          oci_bind_by_name($update, ':partid', $partid);
+          $res = oci_execute($update);
+          if(!$res){
+            $e = oci_error($update);
+            echo $e['message'];
+            break;
+          }
+        }
+        echo '<br><br> <p style="color:green;font-size:20px"> Quantities of Random Parts are set to 0 </p>';
+      }
+      else if(isset($_POST['addemployee']) && isset($_POST['DeptName'])){
         $_SESSION['DeptName'] = $_POST['DeptName'];
         header("Location: addemployee.php");
         exit();
