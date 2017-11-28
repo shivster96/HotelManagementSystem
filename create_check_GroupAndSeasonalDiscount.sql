@@ -11,6 +11,7 @@ Begin
   ELSE
     retVal := -1;
     Return retVal;
+  END IF;
 END;
 /
 show errors;
@@ -31,6 +32,7 @@ Begin
   ELSE
     retVal := -1;
     Return retVal;
+  END IF;
 END;
 /
 show errors;
